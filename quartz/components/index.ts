@@ -1,4 +1,5 @@
 import Content from "./pages/Content"
+import ProtectedContent from "./pages/ProtectedContent"
 import TagContent from "./pages/TagContent"
 import FolderContent from "./pages/FolderContent"
 import NotFound from "./pages/404"
@@ -20,6 +21,7 @@ import MobileOnly from "./MobileOnly"
 import RecentNotes from "./RecentNotes"
 import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
+import Login from "./Login"
 
 export {
   ArticleTitle,
@@ -44,4 +46,6 @@ export {
   NotFound,
   Breadcrumbs,
   Comments,
+  Login,
+  ProtectedContent
 }
