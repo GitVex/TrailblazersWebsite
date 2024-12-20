@@ -1,26 +1,33 @@
-import { QuartzComponent, QuartzComponentProps, QuartzComponentConstructor } from "../types";
-import ContentFactory from "./Content";
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
+import ContentFactory from "./Content"
+//@ts-ignore
+import script from "../scripts/protectedContent.inline"
 
 
 const ProtectedContent: QuartzComponent = (componentData: QuartzComponentProps) => {
-    const Content = ContentFactory()
+  const Content = ContentFactory()
 
-    const user = localStorage.getItem('username');
-    const allowedUsers = componentData.fileData.frontmatter?.allowedUsers as string[] ?? []
-
-    if (!user || !allowedUsers.includes(user)) {
-        return (
-            <div class="access-denied">
-                <p>Oops, No peeking!</p>
-            </div>
-        );
-    } else {
-        return (<div>
-            <Content {...componentData} />
+  return (<>
+      <div class="protected-content">
+        <div id="protected-content-unauthorized" style={{ display: "none" }}>
+          <p>Oops, No peeking!</p>
         </div>
-        )
-    }
-
+        <div id="protected-content-authorized" style={{ display: "none" }}>
+          {Content(componentData)}
+        </div>
+      </div>
+      {/* Serialize the component Data */}
+      <script
+        type="application/json"
+        id="protected-content-data"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(componentData),
+        }}
+      />
+    </>
+  )
 }
+
+ProtectedContent.afterDOMLoaded = script
 
 export default (() => ProtectedContent) satisfies QuartzComponentConstructor

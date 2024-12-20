@@ -192,7 +192,7 @@ export function renderPage(
     head: Head,
     header,
     beforeBody,
-    pageBody: Content,
+    pageBody: ProtectedContent,
     afterBody,
     left,
     right,
@@ -238,7 +238,7 @@ export function renderPage(
                   ))}
                 </div>
               </div>
-              <Content {...componentData} />
+              <ProtectedContent {...componentData} />
               <hr />
               <div class="page-footer">
                 {afterBody.map((BodyComponent) => (
