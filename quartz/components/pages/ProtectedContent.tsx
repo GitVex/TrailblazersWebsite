@@ -6,7 +6,18 @@ import script from "../scripts/protectedContent.inline"
 
 const ProtectedContent: QuartzComponent = (componentData: QuartzComponentProps) => {
   const Content = ContentFactory()
-  const allowedUsers = componentData.fileData.frontmatter?.allowedUsers as string ?? "no one"
+
+  // Only the access control fields are needed client side. Serializing the whole
+  // componentData would embed the page tree and every other file's data into every
+  // page, which blows up the emit step to gigabytes of HTML.
+  const accessControlData = {
+    fileData: {
+      frontmatter: {
+        allowedUsers: componentData.fileData.frontmatter?.allowedUsers ?? "",
+        elevatedUsers: componentData.fileData.frontmatter?.elevatedUsers ?? "",
+      },
+    },
+  }
 
   return (<>
       <div class="protected-content">
@@ -17,12 +28,12 @@ const ProtectedContent: QuartzComponent = (componentData: QuartzComponentProps) 
           {Content(componentData)}
         </div>
       </div>
-      {/* Serialize the component Data */}
+      {/* Serialize just the access control data */}
       <script
         type="application/json"
         id="protected-content-data"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(componentData),
+          __html: JSON.stringify(accessControlData),
         }}
       />
     </>

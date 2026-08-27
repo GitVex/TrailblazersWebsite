@@ -11,4 +11,4 @@ COPY --from=builder /usr/src/app/package.json ./package.json
 
 COPY . .
 
-CMD ["npx", "quartz", "build", "--serve", "--port", "8100"]
+CMD ["npx", "quartz", "build", "--serve", "--verbose", "--port", "8100"]

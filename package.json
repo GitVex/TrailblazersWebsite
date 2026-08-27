@@ -115,11 +115,11 @@
   },
   "contentVersion": {
     "version": {
-      "year": 2025,
+      "year": 2026,
       "major": 1,
-      "minor": 94
+      "minor": 550
     },
-    "lastUpdated": "2025-11-29T14:46:56.541Z",
-    "versionString": "v25.01.094 | 2025-11-29 15:46"
+    "lastUpdated": "2026-08-27T17:49:42.519Z",
+    "versionString": "v26.01.550 | 2026-08-27 19:49"
   }
 }
