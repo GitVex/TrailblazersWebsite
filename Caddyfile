@@ -1,0 +1,7 @@
+:8100 {
+    root * /output/current
+    file_server
+    encode gzip zstd
+    try_files {path} {path}.html {path}/ /404.html
+    header Cache-Control "public, max-age=300, must-revalidate"
+}

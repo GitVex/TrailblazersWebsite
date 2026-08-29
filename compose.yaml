@@ -1,0 +1,32 @@
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.builder
+    restart: unless-stopped
+    environment:
+      POLL_INTERVAL: 60
+      KEEP_BUILDS: 5
+    volumes:
+      - /srv/wiki/staging:/content:ro
+      - /srv/wiki/output:/output
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    restart: unless-stopped
+    environment:
+      - SERVICE_FQDN_WEB_8100
+    volumes:
+      - /srv/wiki/output:/output:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8100/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
