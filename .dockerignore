@@ -3,7 +3,4 @@ node_modules
 public
 .quartz-cache
 content
-Dockerfile.*
-Caddyfile
-builder-entrypoint.sh
 .dockerignore
