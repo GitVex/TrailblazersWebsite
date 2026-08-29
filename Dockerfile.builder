@@ -6,7 +6,8 @@ RUN npm ci
 
 COPY . .
 COPY builder-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/builder-entrypoint.sh
+RUN chmod +x /usr/local/bin/builder-entrypoint.sh && \
+    chown -R node:node /usr/src/app
 
 USER node
 ENTRYPOINT ["/usr/local/bin/builder-entrypoint.sh"]
