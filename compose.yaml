@@ -8,8 +8,8 @@ services:
       POLL_INTERVAL: 60
       KEEP_BUILDS: 5
     volumes:
-      - /srv/wiki/staging:/content:ro
-      - /srv/wiki/output:/output
+      - /srv/tb_wiki/staging/Obsidian/Trailblazers/Trailblazers:/content:ro
+      - /srv/tb_wiki/output:/output
     logging:
       driver: json-file
       options:
@@ -24,7 +24,7 @@ services:
     environment:
       - SERVICE_FQDN_WEB_8100
     volumes:
-      - /srv/wiki/output:/output:ro
+      - /srv/tb_wiki/output:/output:ro
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8100/"]
       interval: 30s
