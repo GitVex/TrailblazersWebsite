@@ -1,12 +1,9 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import packageJson from '../../package.json' with { type: 'json' };
+import { QuartzComponent, QuartzComponentConstructor } from "./types"
+import contentVersion from "../../contentVersion.json" with { type: "json" }
 
 export default (() => {
   const VersionInfo: QuartzComponent = () => {
-
-    return (
-      <p>{packageJson.contentVersion}</p>
-    )
+    return <p>{contentVersion.versionString}</p>
   }
   return VersionInfo
 }) satisfies QuartzComponentConstructor

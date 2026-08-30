@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     environment:
       POLL_INTERVAL: 60
+      TZ: ${TZ:-Europe/Berlin}
       KEEP_BUILDS: 5
     volumes:
       - /srv/tb_wiki/staging/Obsidian/Trailblazers/Trailblazers:/content:ro

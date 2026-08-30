@@ -1,6 +1,6 @@
 node_modules
 .git
 public
-.quartz-cache
+**/.quartz-cache
 content
 .dockerignore

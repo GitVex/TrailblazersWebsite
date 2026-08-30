@@ -2,7 +2,7 @@ import { pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
-import packageJson from "../../package.json" with { type: "json" }
+import contentVersion from "../../contentVersion.json" with { type: "json" }
 
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
@@ -12,7 +12,7 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
       <h2 class={classNames(displayClass, "page-title")}>
         <a href={baseDir}>{title}</a>
       </h2>
-      <p class={classNames(displayClass, "version-display")}>{packageJson.contentVersion.versionString}</p>
+      <p class={classNames(displayClass, "version-display")}>{contentVersion.versionString}</p>
     </div>
   )
 }

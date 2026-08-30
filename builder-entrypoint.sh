@@ -22,17 +22,27 @@ while :; do
   if [ "$cur" = "$prev" ] && [ "$cur" != "$built" ]; then
     ts=$(date -u +%Y%m%dT%H%M%SZ)
     dest="$OUTPUT/build-$ts"
-    echo "[builder] content settled, building -> $dest"
 
-    if node ./quartz/bootstrap-cli.mjs build -d "$CONTENT" -o "$dest"; then
-      ln -sfn "build-$ts" "$OUTPUT/.current.tmp"
-      mv -Tf "$OUTPUT/.current.tmp" "$OUTPUT/current"
-      built="$cur"
-      echo "[builder] published build-$ts"
-      ls -1d "$OUTPUT"/build-* 2>/dev/null | sort -r | tail -n +$((KEEP+1)) | xargs -r rm -rf
+    # stamp the version before quartz runs — PageTitle bundles it in at build time
+    version=$(node ./bump-content-version.mjs) || version=""
+
+    if [ -z "$version" ]; then
+      echo "[builder] VERSION BUMP FAILED — skipping this cycle"
     else
-      echo "[builder] BUILD FAILED — keeping previous"
-      rm -rf "$dest"
+      echo "[builder] content settled, building $version -> $dest"
+
+      if node ./quartz/bootstrap-cli.mjs build -d "$CONTENT" -o "$dest"; then
+        # only advance the counter once the build it stamped has succeeded
+        mv -f "$OUTPUT/.contentVersion.next.json" "$OUTPUT/contentVersion.json"
+        ln -sfn "build-$ts" "$OUTPUT/.current.tmp"
+        mv -Tf "$OUTPUT/.current.tmp" "$OUTPUT/current"
+        built="$cur"
+        echo "[builder] published build-$ts as $version"
+        ls -1d "$OUTPUT"/build-* 2>/dev/null | sort -r | tail -n +$((KEEP+1)) | xargs -r rm -rf
+      else
+        echo "[builder] BUILD FAILED — keeping previous"
+        rm -rf "$dest"
+      fi
     fi
   fi
 
